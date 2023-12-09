@@ -3,9 +3,8 @@ import Head from "next/head"
 import { DrupalNode } from "next-drupal"
 
 import { drupal } from "lib/drupal"
-import { NodeArticle } from "components/node--article"
-import { NodeBasicPage } from "components/node--basic-page"
-import { Layout } from "components/layout"
+import { NodeArticle,NodeBasicPage } from "@/components/node"
+import { Layout } from "@/components/layout"
 
 const RESOURCE_TYPES = ["node--page", "node--article"]
 
@@ -51,7 +50,7 @@ export async function getStaticProps(
   let params = {}
   if (type === "node--article") {
     params = {
-      include: "field_image,uid",
+      include: "field_image,field_image.field_media_image,field_tags,uid",
     }
   }
 

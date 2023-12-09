@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { PreviewAlert } from "components/preview-alert"
+import { PreviewAlert } from "../common"
 
 export function Layout({ children }) {
   return (
