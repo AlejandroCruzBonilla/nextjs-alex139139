@@ -1,0 +1,37 @@
+@use "../base/colors" as c;
+@use "../base/mixins" as m;
+
+.footer {
+  &__divider {
+    @apply container mx-auto;
+		hr {
+			height: 2px;
+			@include m.light-mode{
+				border-color: c.$background-dark;
+			}
+			@include m.dark-mode{
+				border-color: c.$background-light;
+			}
+		}
+    @include m.container-padding;
+
+  }
+  &__wrapper {
+		padding: 2rem;
+		@screen lg {
+			padding: 1rem;
+		}
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 1rem;
+    @screen md {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    @include m.container-padding;
+    @apply container;
+  }
+}

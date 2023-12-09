@@ -1,0 +1,43 @@
+@use "colors" as c;
+@use "mixins" as m;
+
+@layer base {
+  html {
+    font-size: 16px;
+
+    @include m.theme-mode(
+      $color-light: c.$font-dark,
+      $bg-light: c.$background-base-light,
+      $color-dark: c.$font-light,
+      $bg-dark: c.$background-base-dark
+    );
+  }
+
+  h1 {
+    @apply text-4xl;
+    @screen md {
+      @apply text-5xl;
+    }
+  }
+  h2 {
+    @apply text-3xl;
+    @screen md {
+      @apply text-4xl;
+    }
+  }
+  h3 {
+    @apply text-2xl;
+    @screen md {
+      @apply text-3xl;
+    }
+  }
+
+  body {
+    @apply text-lg;
+  }
+
+  // a {
+  //   display: inline-block;
+  // }
+
+}

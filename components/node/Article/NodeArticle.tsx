@@ -1,9 +1,8 @@
-import Image from 'next/image';
 import { DrupalNode } from 'next-drupal';
 
-import { absoluteUrl, formatDate } from '@/lib/utils';
+import { formatDate } from '@/helpers';
 import { Picture } from '@/components/common';
-import { responsiveImage } from '@/lib/images';
+import { responsiveImage } from '@/helpers/images';
 
 interface NodeArticleProps {
   node: DrupalNode;
@@ -14,7 +13,6 @@ export const NodeArticle = ({ node, ...props }: NodeArticleProps) => {
 	const { field_image } = node;
 
   const { field_media_image } = field_image;
-	console.log(node);
 
   return (
     <article {...props}>
@@ -30,13 +28,6 @@ export const NodeArticle = ({ node, ...props }: NodeArticleProps) => {
       </div>
       {node.field_image && (
         <figure>
-          {/* <Image
-            src={absoluteUrl(node.field_image.uri.url)}
-            width={768}
-            height={400}
-            alt={node.field_image.resourceIdObjMeta.alt}
-            priority
-          /> */}
           <Picture {...responsiveImage(field_media_image)} />
           {node.field_image.resourceIdObjMeta.title && (
             <figcaption className='py-2 text-sm text-center text-gray-600'>

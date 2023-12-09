@@ -2,10 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { DrupalNode } from 'next-drupal';
 
-import { formatDate } from '@/lib/utils';
-import { responsiveImage, thumbnailLarge } from '@/lib/images';
-import { Picture } from '@/components/common';
-import type { FieldMediaImage } from '@/common/interfaces/field-image';
+import { formatDate, thumbnailLarge } from '@/helpers';
 
 interface NodeArticleTeaserProps {
   node: DrupalNode;

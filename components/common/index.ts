@@ -1,2 +1,3 @@
-export * from './preview-alert';
-export * from './picture';
+export * from './PreviewAlert';
+export * from './Picture';
+export * from './Seo';

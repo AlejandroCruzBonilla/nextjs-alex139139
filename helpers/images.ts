@@ -1,4 +1,4 @@
-import { absoluteUrl } from './utils';
+import { absoluteUrl } from './';
 
 import type {
   FieldMediaImage,

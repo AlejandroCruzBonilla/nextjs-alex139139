@@ -1,0 +1,63 @@
+@use "colors" as c;
+
+@mixin light-mode {
+  @media (prefers-color-scheme: light) {
+    @content;
+  }
+}
+@mixin dark-mode {
+  @media (prefers-color-scheme: dark) {
+    @content;
+  }
+}
+
+@mixin theme-mode(
+  $color-light: inherit,
+  $bg-light: inherit,
+  $color-dark: inherit,
+  $bg-dark: inherit
+) {
+  @include light-mode {
+    color: $color-light;
+    background: $bg-light;
+  }
+
+  @include dark-mode {
+    color: $color-dark;
+    background: $bg-dark;
+  }
+}
+
+@mixin container-padding {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  @screen md {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  @screen lg {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+}
+
+@mixin background-gradient {
+  @include theme-mode(
+    $bg-light:
+      radial-gradient(
+        at center top,
+        c.$background-light 20%,
+        c.$background-base-light 110%
+      ),
+    $bg-dark:
+      radial-gradient(
+        at center top,
+        c.$background-dark -10%,
+        c.$background-base-dark 110%
+      )
+  );
+}
+
+@mixin background-gradient-primary {
+	background: linear-gradient(to right, c.$font-light 0%, c.$primary);
+} 

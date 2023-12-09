@@ -1,0 +1,35 @@
+@use "../base/colors" as c;
+@use "../base/mixins" as m;
+
+.header {
+  @include m.theme-mode(
+		$color-light: c.$font-light,
+		$bg-light:  c.$background-base-dark,
+		$color-dark: c.$font-dark,
+		$bg-dark: c.$background-light,
+  );
+  &__wrapper {
+		margin-inline: auto;
+    display: flex;
+		justify-content: space-between;
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+		@include m.container-padding;
+    @apply container;
+  }
+	.brand{
+		svg{
+			path {
+				@include m.light-mode {
+          fill: c.$font-light;
+        }
+        @include m.dark-mode {
+          fill: c.$font-dark;
+        }
+				&:hover {
+          fill: c.$primary;
+        }
+			}
+		}
+	}
+}
