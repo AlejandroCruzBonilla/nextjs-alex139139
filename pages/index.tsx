@@ -58,6 +58,9 @@ export async function getStaticProps(
     }
   );
 
+
+	//TODO: request Home SEO
+
   return {
     props: {
       nodes,

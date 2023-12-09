@@ -29,16 +29,16 @@ export const NodeArticle = ({ node, ...props }: NodeArticleProps) => {
       {node.field_image && (
         <figure>
           <Picture {...responsiveImage(field_media_image)} />
-          {node.field_image.resourceIdObjMeta.title && (
+          {field_media_image.resourceIdObjMeta.title && (
             <figcaption className='py-2 text-sm text-center text-gray-600'>
-              {node.field_image.resourceIdObjMeta.title}
+              {field_media_image.resourceIdObjMeta.title}
             </figcaption>
           )}
         </figure>
       )}
-      {node.body?.processed && (
+      {node.field_body?.processed && (
         <div
-          dangerouslySetInnerHTML={{ __html: node.body?.processed }}
+          dangerouslySetInnerHTML={{ __html: node.field_body?.processed }}
           className='mt-6 font-serif text-xl leading-loose prose'
         />
       )}
