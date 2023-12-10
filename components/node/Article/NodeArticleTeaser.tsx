@@ -1,31 +1,29 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { DrupalNode } from 'next-drupal';
 
 import { formatDate, thumbnailLarge } from '@/helpers';
 
-interface NodeArticleTeaserProps {
-  node: DrupalNode;
-}
+import type { NodeArticleTeaserProps } from './interfaces';
+
 
 export const NodeArticleTeaser = ({ node, ...props }: NodeArticleTeaserProps) => {
+
   const { field_image } = node;
 
   const { field_media_image } = field_image;
 
   const thumbnail = thumbnailLarge(field_media_image);
 
-  console.log(node);
   return (
     <article {...props}>
       <Link href={node.path.alias} className='no-underline hover:text-blue-600'>
         <h2 className='mb-4 text-4xl font-bold'>{node.title}</h2>
       </Link>
       <div className='mb-4 text-gray-600'>
-        {node.uid?.display_name ? (
+        {node.uid.display_name ? (
           <span>
             Posted by{' '}
-            <span className='font-semibold'>{node.uid?.display_name}</span>
+            <span className='font-semibold'>{node.uid.display_name}</span>
           </span>
         ) : null}
         <span> - {formatDate(node.created)}</span>

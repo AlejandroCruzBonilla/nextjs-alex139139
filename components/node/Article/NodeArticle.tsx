@@ -3,10 +3,8 @@ import { DrupalNode } from 'next-drupal';
 import { formatDate } from '@/helpers';
 import { Picture } from '@/components/common';
 import { responsiveImage } from '@/helpers/images';
+import { NodeArticleProps } from './interfaces';
 
-interface NodeArticleProps {
-  node: DrupalNode;
-}
 
 export const NodeArticle = ({ node, ...props }: NodeArticleProps) => {
 
@@ -36,9 +34,9 @@ export const NodeArticle = ({ node, ...props }: NodeArticleProps) => {
           )}
         </figure>
       )}
-      {node.field_body?.processed && (
+      {node.field_body && (
         <div
-          dangerouslySetInnerHTML={{ __html: node.field_body?.processed }}
+          dangerouslySetInnerHTML={{ __html: node.field_body }}
           className='mt-6 font-serif text-xl leading-loose prose'
         />
       )}

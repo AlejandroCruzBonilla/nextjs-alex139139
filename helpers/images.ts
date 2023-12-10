@@ -3,9 +3,9 @@ import { absoluteUrl } from './';
 import type {
   FieldMediaImage,
   MediaStyle,
-  Links,
+  MediaLinks,
   ImageDerivatives,
-} from '@/common/interfaces';
+} from '@/interfaces';
 
 
 export const responsiveImage = ({
@@ -45,7 +45,7 @@ export const thumbnailLarge = ({ links, resourceIdObjMeta }: FieldMediaImage) =>
 };
 
 const getSources = (
-  links: Links,
+  links: MediaLinks,
   imageDerivatives: ImageDerivatives,
   defaultMedia: number
 ) => {

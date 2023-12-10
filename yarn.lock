@@ -750,6 +750,13 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
+drupal-jsonapi-params@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/drupal-jsonapi-params/-/drupal-jsonapi-params-2.3.1.tgz#7e91f9d7aa6b2b0793cf6b51fe19a5ffb9591278"
+  integrity sha512-Isx6dudrFhORCl87OWHHO2LpQIAha5d6n7+/fwngsgcQs4PYeZcmTAA3pKUmvfyyFgCJ0N4fLAJQHyf4jtgiDA==
+  dependencies:
+    qs "^6.10.3"
+
 electron-to-chromium@^1.4.601:
   version "1.4.609"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.609.tgz#5790a70aaa96de232501b56e14b64d17aff93988"

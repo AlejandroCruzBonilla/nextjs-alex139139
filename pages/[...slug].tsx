@@ -1,22 +1,27 @@
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import Head from 'next/head';
-import { DrupalNode } from 'next-drupal';
+import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
 import { drupal } from 'lib/drupal';
+
 import { NodeArticle, NodeBasicPage } from '@/components/node';
 import { Layout } from '@/components/layout';
 import { Seo } from '@/components/common';
 
+import type { NodeArticleInterface } from '@/components/node';
+import type { PageDrupalNode } from '@/interfaces';
+
 const RESOURCE_TYPES = ['node--page', 'node--article'];
 
 interface NodePageProps {
-  resource: DrupalNode;
+  resource: Resource;
 }
+type Resource = PageDrupalNode | NodeArticleInterface;
 
 export default function NodePage({ resource }: NodePageProps) {
   if (!resource) return null;
 
-  const { metatag: metaTags }  = resource;
+  const { metatag: metaTags } = resource;
 
   return (
     <Layout>
@@ -24,7 +29,9 @@ export default function NodePage({ resource }: NodePageProps) {
         <Seo metaTags={metaTags} />
       </Head>
       {resource.type === 'node--page' && <NodeBasicPage node={resource} />}
-      {resource.type === 'node--article' && <NodeArticle node={resource} />}
+      {resource.type === 'node--article' && (
+        <NodeArticle node={resource as NodeArticleInterface} />
+      )}
     </Layout>
   );
 }
@@ -51,12 +58,44 @@ export async function getStaticProps(
 
   let params = {};
   if (type === 'node--article') {
-    params = {
-      include: 'field_image,field_image.field_media_image,field_tags,uid',
-    };
+    params = new DrupalJsonApiParams()
+      .addFields('node--article', [
+        'title',
+        'field_image',
+        'field_body',
+        'field_tags',
+        'uid',
+        'created',
+        'path',
+        'metatag',
+        'status',
+      ])
+      .addFields('media--image', ['field_media_image'])
+      .addFields('file--file', [
+        'uri',
+        'url',
+        'filename',
+        'links',
+        'resourceIdObjMeta',
+      ])
+      .addFields('taxonomy_term--tags', [
+        'name',
+        'description',
+        'field_icon_class',
+        'metatag',
+        'path',
+        'status',
+      ])
+      .addInclude([
+        'field_image',
+        'field_image.field_media_image',
+        'field_tags',
+        'uid',
+      ])
+      .getQueryObject();
   }
 
-  const resource = await drupal.getResourceFromContext<DrupalNode>(
+  const resource = await drupal.getResourceFromContext<Resource>(
     path,
     context,
     {
