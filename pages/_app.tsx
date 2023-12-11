@@ -1,7 +1,14 @@
-import { AppProps } from "next/app"
+import { AppProps } from 'next/app';
 
-import "@/styles/app.scss"
+import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
+import { CustomPassThrough } from '@/libraries/primeReact';
+
+import '@/styles/app.scss';
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <PrimeReactProvider  value={{ unstyled: true, ripple: true, pt: CustomPassThrough() }}>
+      <Component {...pageProps} />
+    </PrimeReactProvider>
+  );
 }

@@ -2,12 +2,12 @@ import Head from 'next/head';
 import { GetStaticPropsResult } from 'next';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
-import { drupal, getMenuItems } from '@/lib';
+import { drupal, getMenus } from '@/helpers';
 
 import { Layout } from '@/components/layout';
 import { NodeArticleTeaser } from '@/components/node';
 
-import type { Menu } from '@/interfaces/menus';
+import type { Menu } from '@/interfaces';
 
 import type { NodeArticleTeaserInterface } from '@/components/node/Article/interfaces';
 
@@ -17,7 +17,8 @@ interface IndexPageProps {
   nodes: NodeArticleTeaserInterface[];
 }
 
-export default function IndexPage({ nodes }: IndexPageProps) {
+export default function IndexPage({ nodes, mainMenu, socialMediaMenu }: IndexPageProps) {
+	console.log(mainMenu);
   return (
     <Layout>
       <Head>
@@ -48,7 +49,7 @@ export async function getStaticProps(
   context
 ): Promise<GetStaticPropsResult<IndexPageProps>> {
   const [{ mainMenu, socialMediaMenu }, nodes] = await Promise.all([
-    getMenuItems(),
+    getMenus(),
     drupal.getResourceCollectionFromContext<NodeArticleTeaserInterface[]>(
       'node--article',
       context,

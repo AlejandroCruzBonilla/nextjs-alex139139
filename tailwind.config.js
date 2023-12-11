@@ -6,6 +6,8 @@ module.exports = {
 	content: [
 		"./pages/**/*.{js,ts,jsx,tsx}",
 		"./components/**/*.{js,ts,jsx,tsx}",
+		"./libraries/primeReact/passthroughTailwind.ts",
+		"./libraries/primeReact/customPassThroughTailwind.ts",
 	],
 	theme: {
 		screens: {

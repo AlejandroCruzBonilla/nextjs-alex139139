@@ -1,7 +1,7 @@
 import { MenuItems } from '@/interfaces/menus';
-import { drupal } from '@/lib/drupal';
+import { drupal } from '@/helpers';
 
-export const getMenuItems = () => {
+export const getMenus = () => {
   return new Promise<MenuItems>((resolve, reject) => {
     Promise.all([
 			drupal.getMenu('main'),

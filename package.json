@@ -15,6 +15,7 @@
     "drupal-jsonapi-params": "^2.3.1",
     "next": "^13",
     "next-drupal": "^1.5.0",
+    "primereact": "^10.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sharp": "^0.31.2"
