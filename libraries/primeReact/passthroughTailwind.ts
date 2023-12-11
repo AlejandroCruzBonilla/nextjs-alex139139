@@ -1,4 +1,33 @@
-export const classNames = (...args) => {};
+export function classNames(...args) {
+  if (args) {
+    let classes = [];
+    for (let i = 0; i < args.length; i++) {
+      let className = args[i];
+
+      if (!className) continue;
+
+      const type = typeof className;
+
+      if (type === 'string' || type === 'number') {
+        classes.push(className);
+      } else if (type === 'object') {
+        const _classes = Array.isArray(className)
+          ? className
+          : Object.entries(className).map(([key, value]) =>
+              !!value ? key : null
+            );
+
+        classes = _classes.length
+          ? classes.concat(_classes.filter(c => !!c))
+          : classes;
+      }
+    }
+
+    return classes.join(' ').trim();
+  }
+
+  return undefined;
+}
 
 export const TRANSITIONS = {
   toggleable: {
@@ -766,19 +795,21 @@ export const toast = {
 export const button = {
   root: ({ props, context }) => ({
     className: classNames(
-      'items-center cursor-pointer inline-flex overflow-hidden relative select-none text-center align-bottom',
-      'transition duration-200 ease-in-out',
-      'focus:outline-none focus:outline-offset-0',
+      'btn',
+      //severity null && not link, text, outlined, plain - link
       {
-        'text-white dark:text-gray-900 bg-blue-500 dark:bg-blue-400 border border-blue-500 dark:border-blue-400 hover:bg-blue-600 dark:hover:bg-blue-500 hover:border-blue-600 dark:hover:border-blue-500 focus:shadow-[0_0_0_2px_rgba(255,255,255,1),0_0_0_4px_rgba(157,193,251,1),0_1px_2px_0_rgba(0,0,0,1)] dark:focus:shadow-[0_0_0_2px_rgba(28,33,39,1),0_0_0_4px_rgba(147,197,253,0.7),0_1px_2px_0_rgba(0,0,0,0)]':
+        'btn--primary':
           !props.link &&
           props.severity === null &&
           !props.text &&
           !props.outlined &&
           !props.plain,
-        'text-blue-600 bg-transparent border-transparent focus:shadow-[0_0_0_2px_rgba(255,255,255,1),0_0_0_4px_rgba(157,193,251,1),0_1px_2px_0_rgba(0,0,0,1)] dark:focus:shadow-[0_0_0_2px_rgba(28,33,39,1),0_0_0_4px_rgba(147,197,253,0.7),0_1px_2px_0_rgba(0,0,0,0)]':
+        'bg-transparent border-transparent':
           props.link,
+        'text-primary':
+          props.link && props.severity === null,
       },
+      //severity
       {
         'focus:shadow-[0_0_0_2px_rgba(255,255,255,1),0_0_0_4px_rgba(176,185,198,1),0_1px_2px_0_rgba(0,0,0,1)] dark:focus:shadow-[0_0_0_2px_rgba(28,33,39,1),0_0_0_4px_rgba(203,213,225,0.7),0_1px_2px_0_rgba(0,0,0,0)]':
           props.severity === 'secondary',
@@ -793,6 +824,7 @@ export const button = {
         'focus:shadow-[0_0_0_2px_rgba(255,255,255,1),0_0_0_4px_rgba(247,162,162,1),0_1px_2px_0_rgba(0,0,0,1)] dark:focus:shadow-[0_0_0_2px_rgba(28,33,39,1),0_0_0_4px_rgba(252,165,165,0.7),0_1px_2px_0_rgba(0,0,0,0)]':
           props.severity === 'danger',
       },
+      //severity - not text, outline, plain
       {
         'text-white dark:text-gray-900 bg-gray-500 dark:bg-gray-400 border border-gray-500 dark:border-gray-400 hover:bg-gray-600 dark:hover:bg-gray-500 hover:border-gray-600 dark:hover:border-gray-500':
           props.severity === 'secondary' &&
@@ -826,13 +858,17 @@ export const button = {
           !props.plain,
       },
       { 'shadow-lg': props.raised },
-      { 'rounded-md': !props.rounded, 'rounded-full': props.rounded },
+      //rounded
+      {
+        'rounded-md': !props.rounded && !props.link && !props.text,
+        'rounded-full': props.rounded,
+      },
+      //text && severity - not plain //
       {
         'bg-transparent border-transparent': props.text && !props.plain,
+        'btn--primary-text': props.text && props.severity === null,
         'text-blue-500 dark:text-blue-400 hover:bg-blue-300/20':
-          props.text &&
-          (props.severity === null || props.severity === 'info') &&
-          !props.plain,
+          props.text && props.severity === 'info' && !props.plain,
         'text-gray-500 dark:text-grayy-400 hover:bg-gray-300/20':
           props.text && props.severity === 'secondary' && !props.plain,
         'text-green-500 dark:text-green-400 hover:bg-green-300/20':
@@ -845,6 +881,7 @@ export const button = {
           props.text && props.severity === 'danger' && !props.plain,
       },
       { 'shadow-lg': props.raised && props.text },
+      //plain && text, plain && outlined,  plain && not text, outlined
       {
         'text-gray-500 hover:bg-gray-300/20': props.plain && props.text,
         'text-gray-500 border border-gray-500 hover:bg-gray-300/20':
@@ -852,12 +889,12 @@ export const button = {
         'text-white bg-gray-500 border border-gray-500 hover:bg-gray-600 hover:border-gray-600':
           props.plain && !props.outlined && !props.text,
       },
+      //outlined && not plain, outlined && severity not plain,
       {
         'bg-transparent border': props.outlined && !props.plain,
+        'btn--primary-outlined': props.outlined && props.severity === null,
         'text-blue-500 dark:text-blue-400 border border-blue-500 dark:border-blue-400 hover:bg-blue-300/20':
-          props.outlined &&
-          (props.severity === null || props.severity === 'info') &&
-          !props.plain,
+          props.outlined && props.severity === 'info' && !props.plain,
         'text-gray-500 dark:text-gray-400 border border-gray-500 dark:border-gray-400 hover:bg-gray-300/20':
           props.outlined && props.severity === 'secondary' && !props.plain,
         'text-green-500 dark:text-green-400 border border-green-500 dark:border-green-400 hover:bg-green-300/20':
@@ -869,8 +906,8 @@ export const button = {
         'text-red-500 dark:text-red-400 border border-red-500 dark:border-red-400 hover:bg-red-300/20':
           props.outlined && props.severity === 'danger' && !props.plain,
       },
+      //size
       {
-        'px-4 py-3 text-base': props.size === null,
         'text-xs py-2 px-3': props.size === 'small',
         'text-xl py-3 px-4': props.size === 'large',
       },
@@ -882,7 +919,6 @@ export const button = {
     className: classNames(
       'flex-1',
       'duration-200',
-      'font-bold',
       {
         'hover:underline': props.link,
       },

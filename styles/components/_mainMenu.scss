@@ -39,7 +39,7 @@
       visibility: hidden;
     }
 
-    &.is-active,
+    &.active-link,
     &:hover {
       color: c.$primary;
       font-weight: 600;

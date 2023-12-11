@@ -1,1 +1,1 @@
-export * from './CustomPassThrough'
+export * from './useCustomPassThrough'

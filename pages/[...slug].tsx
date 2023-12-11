@@ -2,7 +2,7 @@ import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import Head from 'next/head';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
-import { getMenus,drupal } from '@/helpers';
+import { getMenus, drupal } from '@/helpers';
 
 import { NodeArticle, NodeBasicPage } from '@/components/node';
 import { Layout } from '@/components/layout';
@@ -29,8 +29,10 @@ export default function NodePage({
 
   const { metatag: metaTags } = resource;
 
+  const mainMenuItems = mainMenu.items;
+
   return (
-    <Layout>
+    <Layout mainMenuItem={mainMenuItems}>
       <Head>
         <Seo metaTags={metaTags} />
       </Head>

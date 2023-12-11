@@ -17,10 +17,15 @@ interface IndexPageProps {
   nodes: NodeArticleTeaserInterface[];
 }
 
-export default function IndexPage({ nodes, mainMenu, socialMediaMenu }: IndexPageProps) {
-	console.log(mainMenu);
+export default function IndexPage({
+  nodes,
+  mainMenu,
+  socialMediaMenu,
+}: IndexPageProps) {
+  const mainMenuItems = mainMenu.items;
+
   return (
-    <Layout>
+    <Layout mainMenuItem={mainMenuItems}>
       <Head>
         <title>Next.js for Drupal</title>
         <meta
