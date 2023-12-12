@@ -23,9 +23,10 @@ export default function IndexPage({
   socialMediaMenu,
 }: IndexPageProps) {
   const mainMenuItems = mainMenu.items;
+  const socialMediaMenuItems = socialMediaMenu.items;
 
   return (
-    <Layout mainMenuItem={mainMenuItems}>
+    <Layout mainMenuItems={mainMenuItems} socialMediaMenuItems={socialMediaMenuItems}>
       <Head>
         <title>Next.js for Drupal</title>
         <meta

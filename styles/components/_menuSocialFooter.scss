@@ -1,0 +1,55 @@
+@use '../base/colors' as c;
+@use '../base/mixins' as m;
+
+.footer {
+  .nav-social {
+    display: flex;
+    align-items: center;
+
+    &__links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    &__link {
+      display: grid;
+      grid-template-columns: 2.5rem;
+      @screen md {
+        column-gap: 0.3rem;
+        grid-template-columns: auto auto;
+        align-items: center;
+      }
+      &:hover {
+        color: c.$primary;
+      }
+    }
+    &__icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      i {
+        text-align: center;
+        font-size: 1.8rem;
+      }
+    }
+    &__title {
+      display: none;
+      @screen md {
+        grid-column: 2/3;
+        display: inline-block;
+        &::before {
+          display: block;
+          content: attr(title);
+          font-weight: 600;
+          height: 0;
+          overflow: hidden;
+          visibility: hidden;
+        }
+        &:hover {
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}

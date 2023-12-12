@@ -3,5 +3,6 @@ import type { DrupalMenuLinkContent } from 'next-drupal';
 
 export interface LayoutProps {
   children: ReactNode | ReactNode[];
-  mainMenuItem: DrupalMenuLinkContent[];
+  mainMenuItems: DrupalMenuLinkContent[];
+  socialMediaMenuItems: DrupalMenuLinkContent[];
 }

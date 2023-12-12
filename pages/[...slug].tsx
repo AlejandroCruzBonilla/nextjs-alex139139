@@ -30,9 +30,10 @@ export default function NodePage({
   const { metatag: metaTags } = resource;
 
   const mainMenuItems = mainMenu.items;
+  const socialMediaMenuItems = socialMediaMenu.items;
 
   return (
-    <Layout mainMenuItem={mainMenuItems}>
+    <Layout mainMenuItems={mainMenuItems} socialMediaMenuItems={socialMediaMenuItems}>
       <Head>
         <Seo metaTags={metaTags} />
       </Head>
