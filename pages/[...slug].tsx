@@ -8,8 +8,8 @@ import { NodeArticle, NodeBasicPage } from '@/components/node';
 import { Layout } from '@/components/layout';
 import { Seo } from '@/components/common';
 
-import type { NodeArticleInterface } from '@/components/node';
 import type { PageDrupalNode, Menu } from '@/interfaces';
+import type { NodeArticleInterface } from '@/components/node';
 
 const RESOURCE_TYPES = ['node--page', 'node--article'];
 
@@ -33,7 +33,10 @@ export default function NodePage({
   const socialMediaMenuItems = socialMediaMenu.items;
 
   return (
-    <Layout mainMenuItems={mainMenuItems} socialMediaMenuItems={socialMediaMenuItems}>
+    <Layout
+      mainMenuItems={mainMenuItems}
+      socialMediaMenuItems={socialMediaMenuItems}
+    >
       <Head>
         <Seo metaTags={metaTags} />
       </Head>
@@ -46,8 +49,10 @@ export default function NodePage({
 }
 
 export async function getStaticPaths(context): Promise<GetStaticPathsResult> {
+  const paths = await drupal.getStaticPathsFromContext(RESOURCE_TYPES, context);
+
   return {
-    paths: await drupal.getStaticPathsFromContext(RESOURCE_TYPES, context),
+    paths,
     fallback: 'blocking',
   };
 }
@@ -65,9 +70,9 @@ export async function getStaticProps(
 
   const type = path.jsonapi.resourceName;
 
-  let params = {};
+  const params = new DrupalJsonApiParams();
   if (type === 'node--article') {
-    params = new DrupalJsonApiParams()
+    params
       .addFields('node--article', [
         'title',
         'field_image',
@@ -100,14 +105,13 @@ export async function getStaticProps(
         'field_image.field_media_image',
         'field_tags',
         'uid',
-      ])
-      .getQueryObject();
+      ]);
   }
 
   const [{ mainMenu, socialMediaMenu }, resource] = await Promise.all([
     getMenus(),
     drupal.getResourceFromContext<Resource>(path, context, {
-      params,
+      params: params.getQueryObject(),
     }),
   ]);
 

@@ -16,7 +16,7 @@ export const Layout: FC<LayoutProps> = ({
       <main className='main'>
         <div className='main__wrapper'>{children}</div>
       </main>
-			<Footer socialMediaMenuItems={socialMediaMenuItems} />
+      <Footer socialMediaMenuItems={socialMediaMenuItems} />
     </>
   );
 };

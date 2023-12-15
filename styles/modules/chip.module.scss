@@ -1,0 +1,28 @@
+@use "../base/colors" as c;
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+.chip {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.2rem 0.75rem;
+  width: fit-content;
+  border-radius: v.$border-radius-full;
+  font-weight: 600;
+  color: c.$font-dark;
+  cursor: pointer;
+  @include m.background-gradient-primary;
+
+  transition: box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    @apply shadow-sm shadow-primary-dark;
+  }
+
+  &__icon {
+    font-size: 1.3rem;
+    i {
+      vertical-align: -0.1rem;
+    }
+  }
+}

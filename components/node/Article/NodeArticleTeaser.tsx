@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import NextLink from 'next/link';
 
+import { Chip, RightArrow } from '@/components/common';
 import { formatDate, thumbnailLarge } from '@/helpers';
 
 import type { NodeArticleTeaserProps } from './interfaces';
@@ -14,6 +15,7 @@ export const NodeArticleTeaser = ({ node }: NodeArticleTeaserProps) => {
 
   const thumbnail = thumbnailLarge(field_media_image);
 
+  const { field_tags } = node;
   return (
     <article className={styles.article_teaser}>
       <header className={styles.article_teaser__image}>
@@ -51,22 +53,16 @@ export const NodeArticleTeaser = ({ node }: NodeArticleTeaserProps) => {
         ></div>
 
         <footer className={styles.article_teaser__footer}>
-          <div className={styles.article_teaser__tags}>TAGS</div>
+          <div className={styles.article_teaser__tags}>
+            {field_tags.map(({ field_icon_class, name, id }) => (
+              <Chip key={id} icon={field_icon_class} name={name} />
+            ))}
+          </div>
 
           <div className={styles.article_teaser__links}>
             <NextLink href={node.path.alias}>
               Read article
-              <svg
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                strokeWidth='2'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                className='w-4 h-4 ml-2'
-              >
-                <path d='M5 12h14M12 5l7 7-7 7' />
-              </svg>
+              <RightArrow />
             </NextLink>
           </div>
         </footer>

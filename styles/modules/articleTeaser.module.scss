@@ -91,6 +91,8 @@
 
   &__tags {
     height: fit-content;
+		display: flex;
+		gap: 1rem;
     @screen md {
       grid-row: 1/2;
     }

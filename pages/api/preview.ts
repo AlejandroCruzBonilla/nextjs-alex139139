@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 
-import { drupal } from "lib/drupal"
+import { drupal } from "@/helpers"
 
 export default async function handler(
   request: NextApiRequest,
