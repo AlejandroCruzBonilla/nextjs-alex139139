@@ -51,7 +51,7 @@ export default ArticlePage;
 export async function getStaticProps(
   context
 ): Promise<GetStaticPropsResult<ArticlesPageProps>> {
-  const [{ mainMenu, socialMediaMenu }, nodes] = await Promise.all([
+  const [{ mainMenu, socialMediaMenu }, {nodes,total,paginationLinks}] = await Promise.all([
     requestGetMenus(),
     requestPaginateNodeArticles(context)
   ]);

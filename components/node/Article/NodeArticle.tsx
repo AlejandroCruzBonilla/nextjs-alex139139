@@ -1,7 +1,13 @@
-import { formatDate } from '@/helpers';
-import { Picture } from '@/components/common';
+import {
+  ArticleChipTags,
+  Chip,
+  Picture,
+  PostedUserDate,
+} from '@/components/common';
 import { responsiveImage } from '@/helpers/images';
 import { NodeArticleProps } from './interfaces';
+
+import styles from '@/styles/modules/nodeArticle.module.scss';
 
 export const NodeArticle = ({ node, ...props }: NodeArticleProps) => {
   const { field_image } = node;
@@ -9,32 +15,35 @@ export const NodeArticle = ({ node, ...props }: NodeArticleProps) => {
   const { field_media_image } = field_image;
 
   return (
-    <article {...props}>
-      <h1 className='mb-4 text-6xl font-black leading-tight'>{node.title}</h1>
-      <div className='mb-4 text-gray-600'>
-        {node.uid?.display_name ? (
-          <span>
-            Posted by{' '}
-            <span className='font-semibold'>{node.uid?.display_name}</span>
-          </span>
-        ) : null}
-        <span> - {formatDate(node.created)}</span>
-      </div>
+    <article {...props} className={styles.article_page}>
+      <h1 className=''>{node.title}</h1>
+      <PostedUserDate
+        postUser={node.uid.display_name}
+        postedDate={node.created}
+      />
       {node.field_image && (
-        <figure>
-          <Picture {...responsiveImage(field_media_image)} />
-          {field_media_image.resourceIdObjMeta.title && (
-            <figcaption className='py-2 text-sm text-center text-gray-600'>
+        <figure className={styles.article_page__image}>
+          <Picture
+            {...responsiveImage(
+              field_media_image.uri,
+              field_media_image.links,
+              field_media_image.resourceIdObjMeta
+            )}
+          />
+          {/* {field_media_image.resourceIdObjMeta.title && (
+            <figcaption className=''>
               {field_media_image.resourceIdObjMeta.title}
             </figcaption>
-          )}
+          )} */}
         </figure>
       )}
+      {node.field_tags.length > 0 && (
+        <div className={styles.article_page__tags}>
+          <ArticleChipTags tags={node.field_tags} />
+        </div>
+      )}
       {node.field_body && (
-        <div
-          dangerouslySetInnerHTML={{ __html: node.field_body }}
-          className='mt-6 font-serif text-xl leading-loose prose'
-        />
+        <div dangerouslySetInnerHTML={{ __html: node.field_body }} />
       )}
     </article>
   );

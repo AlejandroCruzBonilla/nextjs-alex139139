@@ -1,20 +1,20 @@
 import type {
   LinkJsonApiRef,
-  ResourceIDObjMeta,
+  Meta,
   Links,
   Metatag,
   Path,
 } from './common';
 
 export interface FieldTag {
-  type: string;
-  id: string;
-  status: boolean;
   description: string | null;
+  field_icon_class: string;
+  id: string;
+  links: Links;
+  meta: Meta;
   metatag: Metatag[];
   name: string;
   path: Path;
-  field_icon_class: string;
-  links: Links;
-  resourceIdObjMeta: ResourceIDObjMeta;
+  status: boolean;
+  type: string;
 }

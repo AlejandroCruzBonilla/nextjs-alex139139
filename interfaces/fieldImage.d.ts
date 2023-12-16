@@ -1,20 +1,40 @@
-import type { LinkJsonApiRef, ResourceIDObjMeta, Links } from './common';
+import type { Meta, ResourceIDObjMeta, Links } from './common';
 
 export interface FieldImage {
+  type: string;
+  id: string;
+  links: Links;
+  meta: Meta;
   field_media_image: FieldMediaImage;
 }
 
 export interface FieldMediaImage {
-  type: string;
-  id: string;
   filename: string;
+  id: string;
+  links: FieldMediaImageLinks;
+  type: string;
   uri: FieldMediaImageUri;
-  filemime: string;
-  links: MediaLinks;
-  resourceIdObjMeta: MediaResourceIDObjMeta;
+  meta: FieldMediaImageMeta;
 }
 
-export interface MediaLinks extends Links {
+export interface FieldImageDeserialize {
+  type: string;
+  id: string;
+  links: Links;
+  resourceIdObjMeta: ResourceIDObjMeta;
+  field_media_image: FieldMediaImageDeserialize;
+}
+
+export interface FieldMediaImageDeserialize {
+  filename: string;
+  id: string;
+  links: FieldMediaImageLinks;
+  type: string;
+  uri: FieldMediaImageUri;
+  resourceIdObjMeta: FieldMediaImageMeta;
+}
+
+export interface FieldMediaImageLinks extends Links {
   '1024_large': MediaStyle;
   '1280_x_large': MediaStyle;
   '1440_2x_large': MediaStyle;
@@ -26,23 +46,23 @@ export interface MediaLinks extends Links {
   thumbnail_medium: MediaStyle;
 }
 
-interface MediaStyle {
+export interface MediaStyle {
   href: string;
   meta: MediaStyleMeta;
 }
 
-interface MediaStyleMeta {
+export interface MediaStyleMeta {
   linkParams: MediaStyleMetaLinkParams;
   rel: string[];
 }
 
-interface MediaStyleMetaLinkParams {
+export interface MediaStyleMetaLinkParams {
   width: string;
   height: string;
   rel: string[];
 }
 
-interface MediaResourceIDObjMeta extends ResourceIDObjMeta {
+export interface FieldMediaImageMeta extends Meta {
   alt: string;
   title: string;
   width: number;
@@ -50,22 +70,22 @@ interface MediaResourceIDObjMeta extends ResourceIDObjMeta {
   imageDerivatives: ImageDerivatives;
 }
 
-interface ImageDerivatives {
+export interface ImageDerivatives {
   links: { [key: string]: ImageDerivativeLink };
 }
 
-interface ImageDerivativeLink {
+export interface ImageDerivativeLink {
   href: string;
   title: string;
   meta: ImageDerivativeLinkMeta;
   rel: string;
 }
 
-interface ImageDerivativeLinkMeta {
+export interface ImageDerivativeLinkMeta {
   rel: string;
 }
 
-interface FieldMediaImageUri {
+export interface FieldMediaImageUri {
   value: string;
   url: string;
 }

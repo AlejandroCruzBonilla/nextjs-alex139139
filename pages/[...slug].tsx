@@ -69,8 +69,6 @@ export async function getStaticProps(
 
   const type = path.jsonapi.resourceName;
 
-  let res = null;
-
   const resourcePromises: Promise<Resource>[] = [];
 
   if (type === 'node--article') {

@@ -1,19 +1,19 @@
 import { absoluteUrl } from './';
 
 import type {
-  FieldMediaImage,
+  FieldMediaImageUri,
+  FieldMediaImageMeta,
   MediaStyle,
-  MediaLinks,
+  FieldMediaImageLinks,
   ImageDerivatives,
 } from '@/interfaces';
 
-
-export const responsiveImage = ({
-  uri,
-  links,
-  resourceIdObjMeta,
-}: FieldMediaImage) => {
-  const { alt, title, height, width, imageDerivatives } = resourceIdObjMeta;
+export const responsiveImage = (
+  uri: FieldMediaImageUri,
+  links: FieldMediaImageLinks,
+  imageData: FieldMediaImageMeta
+) => {
+  const { alt, title, height, width, imageDerivatives } = imageData;
 
   return {
     alt,
@@ -25,8 +25,11 @@ export const responsiveImage = ({
   };
 };
 
-export const thumbnailLarge = ({ links, resourceIdObjMeta }: FieldMediaImage) => {
-  const { alt, title } = resourceIdObjMeta;
+export const thumbnailLarge = (
+  links: FieldMediaImageLinks,
+  imageData: FieldMediaImageMeta
+) => {
+  const { alt, title } = imageData;
 
   const {
     href,
@@ -38,14 +41,14 @@ export const thumbnailLarge = ({ links, resourceIdObjMeta }: FieldMediaImage) =>
   return {
     alt,
     height: Number(height),
-    src: removeParams(href),
+    src: removeUrlParams(href),
     title,
     width: Number(width),
   };
 };
 
 const getSources = (
-  links: MediaLinks,
+  links: FieldMediaImageLinks,
   imageDerivatives: ImageDerivatives,
   defaultMedia: number
 ) => {
@@ -64,7 +67,7 @@ const getSources = (
     return {
       height,
       media,
-      srcSet: removeParams(href),
+      srcSet: removeUrlParams(href),
       type: 'image/' + getImageExtension(href),
       width,
     };
@@ -84,13 +87,13 @@ const getPxValue = (media: string) => {
   return match ? parseInt(match[0]) : 0;
 };
 
-const removeParams = (url: string) => {
+const removeUrlParams = (url: string) => {
   const index = url.indexOf('?');
   return index !== -1 ? url.substring(0, index) : url;
 };
 
 const getImageExtension = (url: string) => {
-  const cleanUrl = removeParams(url);
+  const cleanUrl = removeUrlParams(url);
   const match = cleanUrl.match(/\.(\w+)$/);
   return match ? match[1] : null;
 };

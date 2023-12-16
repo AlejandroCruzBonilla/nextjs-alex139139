@@ -1,16 +1,32 @@
 import type { DrupalNode } from 'next-drupal';
 
-export interface PageDrupalNode extends DrupalNode{
+export interface ResourceJsonApiResponse<T> {
+  data: T;
+}
+
+export interface ResourcesJsonApiResponse<T> {
+  data: T[];
+  meta: {
+    count: number;
+  };
+  links: PaginateLinks;
+}
+
+export interface PageDrupalNode extends DrupalNode {
   status: boolean;
   metatag: Metatag[];
 }
 
 export interface LinkJsonApiRef {
-	href: string;
+  href: string;
 }
 
 export interface ResourceIDObjMeta {
-	drupal_internal__target_id: number;
+  drupal_internal__target_id: number;
+}
+
+export interface Meta {
+  drupal_internal__target_id: number;
 }
 
 export interface Links {
@@ -35,4 +51,16 @@ export interface Path {
   alias: string;
   pid: number;
   langcode: string;
+}
+
+export interface PaginateLinks {
+  self: PaginateLink;
+  prev?: PaginateLink;
+  next?: PaginateLink;
+  first?: PaginateLink;
+  last?: PaginateLink;
+}
+
+export interface PaginateLink {
+  href: string;
 }

@@ -3,10 +3,16 @@ import type { DrupalTranslatedPath } from 'next-drupal';
 import type {
   NodeArticleInterface,
   NodeArticleTeaserInterface,
+  NodeArticleTeaserPaginate,
 } from '@/components/node';
 
+import type {
+  MenuItems,
+  ResourceJsonApiResponse,
+  ResourcesJsonApiResponse,
+} from '@/interfaces';
+
 import { drupal } from '@/helpers';
-import type { MenuItems } from '@/interfaces/menus';
 
 export const requestGetMenus = () => {
   return new Promise<MenuItems>((resolve, reject) => {
@@ -36,13 +42,7 @@ export const requestNodeArticle = (path: DrupalTranslatedPath, context) => {
         'status',
       ])
       .addFields('media--image', ['field_media_image'])
-      .addFields('file--file', [
-        'uri',
-        'url',
-        'filename',
-        'links',
-        'resourceIdObjMeta',
-      ])
+      .addFields('file--file', ['uri', 'url', 'filename', 'links', 'meta'])
       .addFields('taxonomy_term--tags', [
         'name',
         'description',
@@ -56,20 +56,23 @@ export const requestNodeArticle = (path: DrupalTranslatedPath, context) => {
         'field_image.field_media_image',
         'field_tags',
         'uid',
-      ])
-      .getQueryObject();
-
+      ]);
+			
     drupal
-      .getResourceFromContext<NodeArticleInterface>(path, context, {
-        params,
-      })
+      .getResourceFromContext<NodeArticleInterface>(
+        path,
+        context,
+        {
+          params: params.getQueryObject(),
+        }
+      )
       .then(resolve)
       .catch(reject);
   });
 };
 
 export const requestPaginateNodeArticles = context => {
-  return new Promise<NodeArticleTeaserInterface[]>((resolve, reject) => {
+  return new Promise<NodeArticleTeaserPaginate>((resolve, reject) => {
     const params = new DrupalJsonApiParams()
       .addFilter('status', '1')
       .addPageLimit(10)
@@ -104,18 +107,24 @@ export const requestPaginateNodeArticles = context => {
         'field_tags',
         'uid',
       ])
-      .addSort('created', 'DESC')
-      .getQueryObject();
+      .addSort('created', 'DESC');
+
+    params.addCustomParam({ jsonapi_include: '1' });
 
     drupal
-      .getResourceCollectionFromContext<NodeArticleTeaserInterface[]>(
-        'node--article',
-        context,
-        {
-          params,
-        }
-      )
-      .then(resolve)
+      .getResourceCollectionFromContext<
+        ResourcesJsonApiResponse<NodeArticleTeaserInterface>
+      >('node--article', context, {
+        params: params.getQueryObject(),
+        deserialize: false,
+      })
+      .then(response => {
+        resolve({
+          nodes: response.data,
+          paginationLinks: response.links,
+          total: response.meta.count,
+        });
+      })
       .catch(reject);
   });
 };

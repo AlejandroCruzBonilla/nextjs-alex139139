@@ -1,0 +1,14 @@
+@use '../base/variables' as v;
+
+.article_page {
+	&__image {
+		margin-inline: auto;
+		margin-bottom: 1rem;
+		img {
+			border-radius: v.$border-radius-default;
+		}
+	}
+	&__tags {
+		margin-bottom: 0.8rem;
+	}
+}
