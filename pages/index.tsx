@@ -2,7 +2,7 @@ import Head from 'next/head';
 import type { GetStaticPropsResult, NextPage } from 'next';
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
-import { drupal, getMenus } from '@/helpers';
+import { drupal, requestGetMenus } from '@/helpers';
 
 import { Layout } from '@/components/layout';
 
@@ -39,7 +39,7 @@ export default IndexPage;
 export async function getStaticProps(
   context
 ): Promise<GetStaticPropsResult<IndexPageProps>> {
-  const [{ mainMenu, socialMediaMenu }] = await Promise.all([getMenus()]);
+  const [{ mainMenu, socialMediaMenu }] = await Promise.all([requestGetMenus()]);
 
   //TODO: request Home SEO
 

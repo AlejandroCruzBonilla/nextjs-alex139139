@@ -1,14 +1,13 @@
 import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
 import Head from 'next/head';
-import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 
-import { getMenus, drupal } from '@/helpers';
+import { requestGetMenus, requestNodeArticle, drupal } from '@/helpers';
 
 import { NodeArticle, NodeBasicPage } from '@/components/node';
 import { Layout } from '@/components/layout';
 import { Seo } from '@/components/common';
 
-import type { PageDrupalNode, Menu } from '@/interfaces';
+import type { PageDrupalNode, Menu, MenuItems } from '@/interfaces';
 import type { NodeArticleInterface } from '@/components/node';
 
 const RESOURCE_TYPES = ['node--page', 'node--article'];
@@ -70,49 +69,17 @@ export async function getStaticProps(
 
   const type = path.jsonapi.resourceName;
 
-  const params = new DrupalJsonApiParams();
+  let res = null;
+
+  const resourcePromises: Promise<Resource>[] = [];
+
   if (type === 'node--article') {
-    params
-      .addFields('node--article', [
-        'title',
-        'field_image',
-        'field_body',
-        'field_tags',
-        'uid',
-        'created',
-        'path',
-        'metatag',
-        'status',
-      ])
-      .addFields('media--image', ['field_media_image'])
-      .addFields('file--file', [
-        'uri',
-        'url',
-        'filename',
-        'links',
-        'resourceIdObjMeta',
-      ])
-      .addFields('taxonomy_term--tags', [
-        'name',
-        'description',
-        'field_icon_class',
-        'metatag',
-        'path',
-        'status',
-      ])
-      .addInclude([
-        'field_image',
-        'field_image.field_media_image',
-        'field_tags',
-        'uid',
-      ]);
+    resourcePromises.push(requestNodeArticle(path, context));
   }
 
   const [{ mainMenu, socialMediaMenu }, resource] = await Promise.all([
-    getMenus(),
-    drupal.getResourceFromContext<Resource>(path, context, {
-      params: params.getQueryObject(),
-    }),
+    requestGetMenus(),
+    ...resourcePromises,
   ]);
 
   // At this point, we know the path exists and it points to a resource.

@@ -1,14 +1,10 @@
-import { DrupalNode } from 'next-drupal';
-
 import { formatDate } from '@/helpers';
 import { Picture } from '@/components/common';
 import { responsiveImage } from '@/helpers/images';
 import { NodeArticleProps } from './interfaces';
 
-
 export const NodeArticle = ({ node, ...props }: NodeArticleProps) => {
-
-	const { field_image } = node;
+  const { field_image } = node;
 
   const { field_media_image } = field_image;
 

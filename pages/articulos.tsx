@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import type { GetStaticPropsResult, NextPage } from 'next';
-import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
-import { drupal, getMenus } from '@/helpers';
+import { requestGetMenus, requestPaginateNodeArticles } from '@/helpers';
 import { Layout } from '@/components/layout';
 import { NodeArticleTeaser } from '@/components/node';
 import type { NodeArticleTeaserInterface } from '@/components/node';
@@ -53,49 +52,8 @@ export async function getStaticProps(
   context
 ): Promise<GetStaticPropsResult<ArticlesPageProps>> {
   const [{ mainMenu, socialMediaMenu }, nodes] = await Promise.all([
-    getMenus(),
-    drupal.getResourceCollectionFromContext<NodeArticleTeaserInterface[]>(
-      'node--article',
-      context,
-      {
-        params: new DrupalJsonApiParams()
-          .addFilter('status', '1')
-          .addPageLimit(10)
-          .addFields('node--article', [
-            'title',
-            'field_summary',
-            'field_image',
-            'field_tags',
-            'uid',
-            'created',
-            'path',
-          ])
-          .addFields('media--image', ['field_media_image'])
-          .addFields('file--file', [
-            'uri',
-            'url',
-            'filename',
-            'links',
-            'resourceIdObjMeta',
-          ])
-          .addFields('taxonomy_term--tags', [
-            'name',
-            'description',
-            'field_icon_class',
-            'metatag',
-            'path',
-            'status',
-          ])
-          .addInclude([
-            'field_image',
-            'field_image.field_media_image',
-            'field_tags',
-            'uid',
-          ])
-          .addSort('created', 'DESC')
-          .getQueryObject(),
-      }
-    ),
+    requestGetMenus(),
+    requestPaginateNodeArticles(context)
   ]);
 
   //TODO: request Articles SEO
