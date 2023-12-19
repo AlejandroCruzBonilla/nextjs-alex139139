@@ -5,6 +5,7 @@
 @layer components {
   .btn {
     display: inline-flex;
+		justify-content: center;
     align-items: center;
     text-align: center;
     position: relative;
@@ -22,14 +23,14 @@
 			@include m.background-gradient-primary;
       transition: box-shadow 0.2s ease-in-out;
 
-      &:hover {
+      &:not(:disabled):hover {
         @apply shadow shadow-primary-dark;
       }
     }
 
 		&--primary-text {
 			color: c.$primary;
-			&:hover {
+			&:not(:disabled):hover {
 				color: c.$font-dark;
 				@include m.background-gradient-primary;
 			}
@@ -39,7 +40,7 @@
       border-width: 2px;
       border-color: c.$primary;
       color: c.$primary;
-      &:hover {
+      &:not(:disabled):hover {
 				color: c.$font-dark;
 				@include m.background-gradient-primary;
       }

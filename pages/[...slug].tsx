@@ -1,4 +1,9 @@
-import { GetStaticPathsResult, GetStaticPropsResult } from 'next';
+import {
+	GetStaticPaths,
+  GetStaticPathsResult,
+  GetStaticProps,
+  GetStaticPropsResult,
+} from 'next';
 import Head from 'next/head';
 
 import { requestGetMenus, requestNodeArticle, drupal } from '@/helpers';
@@ -8,7 +13,7 @@ import { Layout } from '@/components/layout';
 import { Seo } from '@/components/common';
 
 import type { PageDrupalNode, Menu, MenuItems } from '@/interfaces';
-import type { NodeArticleInterface } from '@/components/node';
+import type { INodeArticle } from '@/components/node';
 
 const RESOURCE_TYPES = ['node--page', 'node--article'];
 
@@ -17,7 +22,7 @@ interface NodePageProps {
   socialMediaMenu: Menu;
   resource: Resource;
 }
-type Resource = PageDrupalNode | NodeArticleInterface;
+type Resource = PageDrupalNode | INodeArticle;
 
 export default function NodePage({
   resource,
@@ -41,13 +46,13 @@ export default function NodePage({
       </Head>
       {resource.type === 'node--page' && <NodeBasicPage node={resource} />}
       {resource.type === 'node--article' && (
-        <NodeArticle node={resource as NodeArticleInterface} />
+        <NodeArticle node={resource as INodeArticle} />
       )}
     </Layout>
   );
 }
 
-export async function getStaticPaths(context): Promise<GetStaticPathsResult> {
+export const getStaticPaths:GetStaticPaths = async (context): Promise<GetStaticPathsResult> =>{
   const paths = await drupal.getStaticPathsFromContext(RESOURCE_TYPES, context);
 
   return {
@@ -56,9 +61,9 @@ export async function getStaticPaths(context): Promise<GetStaticPathsResult> {
   };
 }
 
-export async function getStaticProps(
+export const getStaticProps: GetStaticProps = async (
   context
-): Promise<GetStaticPropsResult<NodePageProps>> {
+): Promise<GetStaticPropsResult<NodePageProps>> => {
   const path = await drupal.translatePathFromContext(context);
 
   if (!path) {
@@ -103,4 +108,4 @@ export async function getStaticProps(
       resource,
     },
   };
-}
+};

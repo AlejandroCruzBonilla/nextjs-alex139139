@@ -6,7 +6,7 @@ import type {
   Path,
 } from './common';
 
-export interface FieldTag {
+export interface IFieldTag {
   description: string | null;
   field_icon_class: string;
   id: string;

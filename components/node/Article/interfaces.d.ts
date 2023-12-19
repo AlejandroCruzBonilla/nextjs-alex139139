@@ -3,37 +3,37 @@ import type {
   Metatag,
   FieldImage,
 	FieldImageDeserialize,
-  FieldTag,
+  IFieldTag,
   UserID,
   PageDrupalNode,
-  PaginateLinks,
+  PaginationLinks,
 } from '@/interfaces';
 
 export interface NodeArticleTeaserProps {
-  node: NodeArticleTeaserInterface;
+  node: INodeArticleTeaser;
 }
 
-export interface NodeArticleTeaserInterface extends DrupalNode {
-  field_image: FieldImage;
+export interface INodeArticleTeaser extends DrupalNode {
+  field_image: FieldImageDeserialize;
   field_summary: string;
-  field_tags: FieldTag[];
+  field_tags: IFieldTag[];
   uid: UserID;
 }
 
-export interface NodeArticleTeaserPaginate {
-  nodes: NodeArticleTeaserInterface[];
+export interface INodeArticleTeaserPaginate {
+  nodes: INodeArticleTeaser[];
   total: number;
-  paginationLinks: PaginateLinks;
+  paginationLinks: PaginationLinks;
 }
 
 export interface NodeArticleProps {
-  node: NodeArticleInterface;
+  node: INodeArticle;
 }
 
-export interface NodeArticleInterface extends PageDrupalNode {
+export interface INodeArticle extends PageDrupalNode {
   field_image: FieldImageDeserialize;
   field_body: string;
-  field_tags: FieldTag[];
+  field_tags: IFieldTag[];
   uid: UserID;
   status: boolean;
   metatag: Metatag[];

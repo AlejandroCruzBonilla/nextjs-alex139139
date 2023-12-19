@@ -6,3 +6,6 @@ export * from './SVGIcons';
 export * from './Chip';
 export * from './PostedUserDate';
 export * from './ArticleChipTags';
+export * from './MiniPaginator';
+export * from './Paginator';
+export * from './AutoCompleteChips';

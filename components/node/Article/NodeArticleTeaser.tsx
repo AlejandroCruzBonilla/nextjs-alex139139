@@ -20,7 +20,7 @@ export const NodeArticleTeaser = ({ node }: NodeArticleTeaserProps) => {
 
   const thumbnail = thumbnailLarge(
 		field_media_image.links,
-		field_media_image.meta,
+		field_media_image.resourceIdObjMeta,
 	);
 
   const { field_tags } = node
@@ -60,7 +60,7 @@ export const NodeArticleTeaser = ({ node }: NodeArticleTeaserProps) => {
         ></div>
 
         <footer className={styles.article_teaser__footer}>
-          {field_tags.length && (
+          {field_tags.length > 0 && (
             <div className={styles.article_teaser__tags}>
               <ArticleChipTags tags={field_tags} />
             </div>

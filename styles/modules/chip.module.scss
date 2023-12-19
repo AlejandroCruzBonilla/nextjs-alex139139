@@ -10,7 +10,7 @@
   border-radius: v.$border-radius-full;
   font-weight: 600;
   color: c.$font-dark;
-  cursor: pointer;
+  // cursor: pointer;
   @include m.background-gradient-primary;
 
   transition: box-shadow 0.2s ease-in-out;

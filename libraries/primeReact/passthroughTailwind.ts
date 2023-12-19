@@ -3579,71 +3579,52 @@ export const paginator = {
   root: {
     className: classNames(
       'flex items-center justify-center flex-wrap',
-      'bg-white text-gray-500 border-0 px-4 py-2 rounded-md',
-      'dark:bg-gray-900 dark:text-white/60 dark:border-blue-900/40' // Dark Mode
+      // 'bg-white text-gray-500 border-0 px-4 py-2 rounded-md',
+      // 'dark:bg-gray-900 dark:text-white/60 dark:border-blue-900/40' // Dark Mode
     ),
   },
   firstpagebutton: ({ context }) => ({
     className: classNames(
-      'relative inline-flex items-center justify-center user-none overflow-hidden leading-none',
-      'border-0 text-gray-500  min-w-[3rem] h-12 m-[0.143rem] rounded-md',
-      'transition duration-200',
-      'dark:text-white', //Dark Mode
+      'btn btn--primary-text p-4', //Dark Mode
       {
         'cursor-default pointer-events-none opacity-60': context.disabled,
-        'focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]':
-          !context.disabled, // Focus
+        '': !context.disabled, // Focus
       }
     ),
   }),
-  previouspagebutton: ({ context }) => ({
+  prevpagebutton: ({ context }) => ({
     className: classNames(
-      'relative inline-flex items-center justify-center user-none overflow-hidden leading-none',
-      'border-0 text-gray-500 min-w-[3rem] h-12 m-[0.143rem] rounded-md',
-      'transition duration-200',
-      'dark:text-white', //Dark Mode
+      'btn btn--primary-text p-4', //Dark Mode
       {
         'cursor-default pointer-events-none opacity-60': context.disabled,
-        'focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]':
-          !context.disabled, // Focus
+        '': !context.disabled, // Focus
       }
     ),
   }),
   nextpagebutton: ({ context }) => ({
     className: classNames(
-      'relative inline-flex items-center justify-center user-none overflow-hidden leading-none',
-      'border-0 text-gray-500 min-w-[3rem] h-12 m-[0.143rem] rounded-md',
-      'transition duration-200',
-      'dark:text-white', //Dark Mode
+      'btn btn--primary-text p-4',
       {
         'cursor-default pointer-events-none opacity-60': context.disabled,
-        'focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]':
-          !context.disabled, // Focus
+        '': !context.disabled, // Focus
       }
     ),
   }),
   lastpagebutton: ({ context }) => ({
     className: classNames(
-      'relative inline-flex items-center justify-center user-none overflow-hidden leading-none',
-      'border-0 text-gray-500 min-w-[3rem] h-12 m-[0.143rem] rounded-md',
-      'transition duration-200',
-      'dark:text-white', //Dark Mode
+      'btn btn--primary-text p-4',
       {
         'cursor-default pointer-events-none opacity-60': context.disabled,
-        'focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]':
-          !context.disabled, // Focus
+        '': !context.disabled, // Focus
       }
     ),
   }),
   pagebutton: ({ context }) => ({
     className: classNames(
-      'relative inline-flex items-center justify-center user-none overflow-hidden leading-none',
-      'border-0 text-gray-500 min-w-[3rem] h-12 m-[0.143rem] rounded-md',
-      'transition duration-200',
-      'dark:border-blue-300 dark:text-white', // Dark Mode
-      'focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]', // Focus
+      'min-w-[3rem] h-12 m-[0.143rem]',
       {
-        'bg-blue-50 border-blue-50 text-blue-700 dark:bg-blue-300':
+				'btn btn--primary-text p-4': !context.active,
+        'btn btn--primary p-4':
           context.active,
       }
     ),

@@ -9,7 +9,7 @@ export interface ResourcesJsonApiResponse<T> {
   meta: {
     count: number;
   };
-  links: PaginateLinks;
+  links: PaginationLinks;
 }
 
 export interface PageDrupalNode extends DrupalNode {
@@ -53,14 +53,14 @@ export interface Path {
   langcode: string;
 }
 
-export interface PaginateLinks {
-  self: PaginateLink;
-  prev?: PaginateLink;
-  next?: PaginateLink;
-  first?: PaginateLink;
-  last?: PaginateLink;
+export interface PaginationLinks {
+  self: PaginationLink;
+  prev?: PaginationLink;
+  next?: PaginationLink;
+  first?: PaginationLink;
+  last?: PaginationLink;
 }
 
-export interface PaginateLink {
+export interface PaginationLink {
   href: string;
 }

@@ -1,12 +1,13 @@
 import { DrupalJsonApiParams } from 'drupal-jsonapi-params';
 import type { DrupalTranslatedPath } from 'next-drupal';
 import type {
-  NodeArticleInterface,
-  NodeArticleTeaserInterface,
-  NodeArticleTeaserPaginate,
+  INodeArticle,
+  INodeArticleTeaser,
+  INodeArticleTeaserPaginate,
 } from '@/components/node';
 
 import type {
+	IFieldTag,
   MenuItems,
   ResourceJsonApiResponse,
   ResourcesJsonApiResponse,
@@ -28,7 +29,7 @@ export const requestGetMenus = () => {
 };
 
 export const requestNodeArticle = (path: DrupalTranslatedPath, context) => {
-  return new Promise<NodeArticleInterface>((resolve, reject) => {
+  return new Promise<INodeArticle>((resolve, reject) => {
     const params = new DrupalJsonApiParams()
       .addFields('node--article', [
         'title',
@@ -57,10 +58,56 @@ export const requestNodeArticle = (path: DrupalTranslatedPath, context) => {
         'field_tags',
         'uid',
       ]);
-			
+
     drupal
-      .getResourceFromContext<NodeArticleInterface>(
-        path,
+      .getResourceFromContext<INodeArticle>(path, context, {
+        params: params.getQueryObject(),
+      })
+      .then(resolve)
+      .catch(reject);
+  });
+};
+
+export const requestNodeArticles = context => {
+  return new Promise<INodeArticleTeaser[]>((resolve, reject) => {
+    const params = new DrupalJsonApiParams()
+      .addFilter('status', '1')
+      .addFields('node--article', [
+        'title',
+        'field_summary',
+        'field_image',
+        'field_tags',
+        'uid',
+        'created',
+        'path',
+      ])
+      .addFields('media--image', ['field_media_image'])
+      .addFields('file--file', [
+        'uri',
+        'url',
+        'filename',
+        'links',
+        'resourceIdObjMeta',
+      ])
+      .addFields('taxonomy_term--tags', [
+        'name',
+        'description',
+        'field_icon_class',
+        'metatag',
+        'path',
+        'status',
+      ])
+      .addInclude([
+        'field_image',
+        'field_image.field_media_image',
+        'field_tags',
+        'uid',
+      ])
+      .addSort('created', 'DESC');
+
+    drupal
+      .getResourceCollectionFromContext<INodeArticleTeaser[]>(
+        'node--article',
         context,
         {
           params: params.getQueryObject(),
@@ -72,7 +119,7 @@ export const requestNodeArticle = (path: DrupalTranslatedPath, context) => {
 };
 
 export const requestPaginateNodeArticles = context => {
-  return new Promise<NodeArticleTeaserPaginate>((resolve, reject) => {
+  return new Promise<INodeArticleTeaserPaginate>((resolve, reject) => {
     const params = new DrupalJsonApiParams()
       .addFilter('status', '1')
       .addPageLimit(10)
@@ -113,7 +160,7 @@ export const requestPaginateNodeArticles = context => {
 
     drupal
       .getResourceCollectionFromContext<
-        ResourcesJsonApiResponse<NodeArticleTeaserInterface>
+        ResourcesJsonApiResponse<INodeArticleTeaser>
       >('node--article', context, {
         params: params.getQueryObject(),
         deserialize: false,
@@ -125,6 +172,33 @@ export const requestPaginateNodeArticles = context => {
           total: response.meta.count,
         });
       })
+      .catch(reject);
+  });
+};
+
+export const requestTags = context => {
+  return new Promise<IFieldTag[]>((resolve, reject) => {
+    const params = new DrupalJsonApiParams()
+      .addFilter('status', '1')
+      .addFields('taxonomy_term--tags', [
+        'name',
+        'description',
+        'field_icon_class',
+        'metatag',
+        'path',
+        'status',
+      ])
+      .addSort('name', 'DESC');
+
+    drupal
+      .getResourceCollectionFromContext<IFieldTag[]>(
+        'taxonomy_term--tags',
+        context,
+        {
+          params: params.getQueryObject(),
+        }
+      )
+      .then(resolve)
       .catch(reject);
   });
 };

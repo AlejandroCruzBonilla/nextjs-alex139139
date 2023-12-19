@@ -1,5 +1,5 @@
-import type { FieldTag } from '@/interfaces';
+import type { IFieldTag } from '@/interfaces';
 
 export interface ArticleChipTagsProps {
-	tags: FieldTag[];
+	tags: IFieldTag[];
 }

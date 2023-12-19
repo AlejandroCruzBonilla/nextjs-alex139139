@@ -1,12 +1,13 @@
 import { usePassThrough } from 'primereact/passthrough';
-import Tailwind, { global, button } from './passthroughTailwind';
+import Tailwind, { global, button, paginator } from './passthroughTailwind';
 
 export const useCustomPassThrough = () => {
   const customPassThrough = usePassThrough(
     Tailwind,
     {
       global,
-      button
+      button,
+      paginator,
     },
     { mergeSections: false, mergeProps: false }
   );
