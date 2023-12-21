@@ -20,6 +20,10 @@ export const Paginator: FC<PaginatorProps> = ({
     onPaginate(0);
   }, [onPaginate]);
 
+  useEffect(() => {
+    setFirst(0);
+  }, [totalRecords]);
+
   return (
     <PvPaginator
       first={first}

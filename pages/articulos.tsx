@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Head from 'next/head';
 import type { GetStaticProps, GetStaticPropsResult, NextPage } from 'next';
 import { ScrollTop } from 'primereact/scrolltop';
@@ -26,7 +26,6 @@ const ArticlesPage: NextPage<ArticlesPageProps> = ({
   mainMenu,
   socialMediaMenu,
 }) => {
-
   const mainMenuItems = mainMenu.items;
   const socialMediaMenuItems = socialMediaMenu.items;
 
@@ -35,19 +34,49 @@ const ArticlesPage: NextPage<ArticlesPageProps> = ({
     INodeArticleTeaser[]
   >([]);
 
-  const tagList = tags.map(tag => ({
-    name: tag.name,
-    icon: tag.field_icon_class,
-  }));
+  const [articlesByTags, setArticlesByTag] = useState([]);
+
+  const handleSearchTags = useCallback(
+    (tags, filterMode) => {
+      if (tags.length <= 0) setArticlesByTag(nodes);
+      else {
+        const filteredArticles = nodes.filter(node => {
+          const { field_tags } = node;
+          if (filterMode === 'can') {
+            return tags.some(sTag =>
+              field_tags.find(fTag => fTag.name === sTag.name)
+            );
+          } else if (filterMode === 'has') {
+            return tags.every(sTag =>
+              field_tags.find(fTag => fTag.name === sTag.name)
+            );
+          }
+        });
+        setArticlesByTag(filteredArticles);
+      }
+    },
+    [nodes]
+  );
 
   const handleOnPaginate = useCallback(
     (first: number) => {
       const last = first + itemsPerPage;
-      setPaginatedArticles(nodes.slice(first, last));
+      setPaginatedArticles(articlesByTags.slice(first, last));
       scrollToTop();
     },
-    [nodes]
+    [articlesByTags]
   );
+
+  useEffect(() => {
+    handleOnPaginate(0);
+  }, [handleOnPaginate, articlesByTags]);
+
+  const tagList = tags
+    .map(tag => ({
+      name: tag.name,
+      icon: tag.field_icon_class,
+    }))
+    .reverse();
 
   return (
     <Layout
@@ -63,9 +92,9 @@ const ArticlesPage: NextPage<ArticlesPageProps> = ({
       </Head>
       <div>
         <h1 className='mb-10 text-6xl font-black'>Latest Articles.</h1>
-				<div className="my-4">
-        	<AutoCompleteChips items={tagList} />
-				</div>
+        <div className='my-4'>
+          <AutoCompleteChips items={tagList} onSearch={handleSearchTags} />
+        </div>
         <div className='grid gap-6'>
           {paginatedArticles?.length ? (
             paginatedArticles.map(node => (
@@ -79,19 +108,19 @@ const ArticlesPage: NextPage<ArticlesPageProps> = ({
           <div className='block md:hidden'>
             <MiniPaginator
               itemsPerPage={itemsPerPage}
-              totalRecords={nodes.length}
+              totalRecords={articlesByTags.length}
               onPaginate={handleOnPaginate}
             />
           </div>
           <div className='hidden md:block'>
             <Paginator
               itemsPerPage={itemsPerPage}
-              totalRecords={nodes.length}
+              totalRecords={articlesByTags.length}
               onPaginate={handleOnPaginate}
             />
           </div>
         </div>
-        <ScrollTop className='background-gradient-primary text-font-dark' />
+        <ScrollTop className='background-gradient-primary !text-font-dark' />
       </div>
     </Layout>
   );

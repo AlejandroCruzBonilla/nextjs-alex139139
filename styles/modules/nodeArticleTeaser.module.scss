@@ -13,8 +13,8 @@
     grid-template-columns: 2fr 3fr;
     grid-template-rows: subgrid;
     grid-row: span 4;
-    width: calc(100% - 1.5rem);
-    margin-left: 1.5rem;
+    width: 100%;
+    column-gap: 1rem;
   }
 
   &__image {
@@ -29,11 +29,6 @@
 
     &_wrapper {
       @apply shadow-md;
-      @screen md {
-        position: relative;
-        left: -1.5rem;
-        top: -0.5rem;
-      }
     }
 
     @screen md {
@@ -50,7 +45,7 @@
       padding-left: 0;
       display: grid;
       grid-template-rows: subgrid;
-      row-gap: 0.5rem;
+      row-gap: 1rem;
       grid-row: 1/5;
     }
   }
@@ -65,7 +60,7 @@
     display: none;
 
     @screen sm {
-      display: block;
+      // display: block;
       p {
         display: -webkit-box;
         -webkit-box-orient: vertical;
@@ -91,8 +86,8 @@
 
   &__tags {
     height: fit-content;
-		display: flex;
-		gap: 1rem;
+    display: flex;
+    gap: 1rem;
     @screen md {
       grid-row: 1/2;
     }

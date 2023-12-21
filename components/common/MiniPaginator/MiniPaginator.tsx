@@ -19,6 +19,10 @@ export const MiniPaginator: FC<MiniPaginatorProps> = ({
     onPaginate(0);
   }, [onPaginate]);
 
+	useEffect(() => {
+    setFirst(0);
+  }, [totalRecords]);
+
   return (
     <PvPaginator
       first={first}

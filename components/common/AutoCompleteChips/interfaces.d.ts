@@ -1,8 +1,13 @@
 export interface AutoCompleteChipsProps {
-  items: Chip[];
+  items: IChip[];
+  onSearch: (items: IChip[], filterMode: FilterMode) => void;
 }
 
-interface Chip {
+export interface IChip {
   icon?: string;
   name?: string;
 }
+
+export type FilterMode = 'can' | 'has'
+
+export type IndexedChip = { [key: string]: IChip };
